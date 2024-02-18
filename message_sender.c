@@ -9,32 +9,32 @@
 
 int main(int argc, char* argv[]){
     if(!(argc == 4)){
-        perror("Invalid Number Of Arguments for Sender");
+        perror("Error Sender - Invalid Number Of Arguments");
         exit(1);
     }
-    int file_descriptor;
-    char* path = argv[1];
+    int fd;
+    char* path_to_file = argv[1];
     unsigned int channel = atoi(argv[2]);
     char* message = argv[3];
     
-    file_descriptor = open(path, O_WRONLY); /*open file*/
-    if(file_descriptor < 0){/*failed to open file*/
-        perror("Sender Failed To Open File");
+    fd = open(path_to_file, O_WRONLY); 
+    if(fd < 0){
+        perror("Error Sender -cannot open file");
         exit(1);
     }
 
-    if(ioctl(file_descriptor, MSG_SLOT_CHANNEL, channel) < 0){ /*try ioctl*/
-        perror("Sender Failed Using ioctl"); /*ioctl failed*/
+    if(ioctl(fd, MSG_SLOT_CHANNEL, channel) < 0){ 
+        perror("Error Sender - IOCTL"); 
         exit(1);
     }
 
-    if(write(file_descriptor, message, strlen(message)) < 0){/*try to write*/
-        perror("Sender Failed To Write");
+    if(write(fd, message, strlen(message)) < 0){
+        perror("Error Sender - cannot write");
         exit(1);
     }
 
-    if(close(file_descriptor) < 0){/*try to close*/
-        perror("Sender Failed To Close File");
+    if(close(fd) < 0){
+        perror("Error Sender - cannot close File");
         exit(1);
     }
 
