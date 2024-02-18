@@ -14,6 +14,22 @@ MODULE_LICENSE("GPL");
 
 #include "message_slot.h"
 
+typedef struct slot_file
+{
+    unsigned int minor;
+    unsigned long owners;
+    struct slot_file* next;  
+    struct channel* channels;    
+} slot_file;
+
+typedef struct channel
+{
+    unsigned long channel_num;
+    unsigned long word_len;
+    char* data;
+    struct channel* next;
+} channel;
+
 void freeall(void);
 slot_file* search_slot(unsigned int minor);
 void delete_slot(slot_file* slot);
@@ -22,9 +38,6 @@ void insert_channel(slot_file* slot, channel* chan);
 void delete_channels(slot_file* slot);
 void copy_buffer_to_channel(ssize_t len, const char* buff, channel* chan);
 static slot_file* head;
-
-
-
 //searches and return slot , null if not found
 slot_file* search_slot(unsigned int minor){
     slot_file* curr = head;
