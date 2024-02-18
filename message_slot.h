@@ -10,13 +10,13 @@
 
 #define DEVICE_NAME "message_slot_device"
 
-typedef struct message_slot_file
+typedef struct slot_file
 {
     unsigned int minor;
     unsigned long owners;
-    struct message_slot_file* next;  
+    struct slot_file* next;  
     struct channel* channels;    
-} message_slot_file;
+} slot_file;
 
 typedef struct channel
 {
