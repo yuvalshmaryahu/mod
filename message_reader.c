@@ -19,6 +19,10 @@ sudo chmod 666 /dev/slot0
 ./message_reader /dev/slot0 1
 ./message_sender /dev/slot0 3 "another channel"
 ./message_reader /dev/slot0 3
+----------------------------
+sudo rmmod message_slot
+sudo rm /dev/slot0
+
 */
 
 int main(int argc, char* argv[]){
